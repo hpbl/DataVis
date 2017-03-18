@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+    </head>
+    <body>
+     
+      <script type="text/javascript">
+      var dataset = [[480, 90, 12], [250, 50, 34], [100, 33, 90], [330, 90, 20], [410, 12, 39], [475, 44, 48], [25, 67, 28], [85, 21, 89], [220, 88, 99], [0, 0, 11]];
+
+
+      var margin = {top: 10, right: 10, bottom: 10, left: 10};
+      var width = 500 - margin.left - margin.right;
+      var height = 300 - margin.top - margin.bottom;
+      
+      // D3 Code
+      var mySVG = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+      // Drawing group
+      var canvas = mySVG.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // creating scales
+      var xScale = d3.scaleLinear().domain([0, 480]).range([10, width-20]);
+      var yScale = d3.scaleLinear().domain([0, 90]).range([height-20, 10]);
+      var cScale = d3.scaleLinear().domain([0, 99]).range(["rgb(200, 200, 200)", "purple"]);
+
+      // drawing circles
+      canvas.selectAll("circle").data(dataset).enter().append("circle")
+            .attr("r", "10")
+            .attr("cx", function(d){return xScale(d[0]);})
+            .attr("cy", function(d){return yScale(d[1]);})
+            .attr("fill", function(d){return cScale(d[2]);});
+
+      // adding axis
+      var xAxisGroup = canvas.append("g").attr("class", "xAxis")
+                      .attr("transform", "translate(" + 0 + "," +(height - margin.top - margin.bottom)+")");
+      var xAxis = d3.axisBottom(xScale);
+      xAxisGroup.call(xAxis);
+
+      var yAxisGroup = canvas.append("g").attr("class", "yAxis")
+                      .attr("transform", "translate(" + margin.left + "," + 0+")");
+      var yAxis = d3.axisLeft(yScale);
+      yAxisGroup.call(yAxis);
+
+
+      
+      </script>
+    </body>
+</html>    
